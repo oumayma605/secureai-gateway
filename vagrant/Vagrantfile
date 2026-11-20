@@ -1,0 +1,47 @@
+# -*- mode: ruby -*-
+# Lab securite : reseau interne 10.0.0.0/24 (VirtualBox "intnet" = sans acces exterieur)
+# L'interface NAT par defaut de Vagrant sert UNIQUEMENT a installer les paquets.
+#
+# Utilisation (depuis le dossier vagrant/) :
+#   Pour la partie A, la VM client seule suffit :  vagrant up client
+#   vagrant up                 -> client + serveur (2 VMs, adapte a < 8 Go de RAM)
+#   IDS_VM=1 vagrant up        -> ajoute la VM IDS optionnelle (10.0.0.30)
+#   LUBUNTU_GUI=0 vagrant up   -> pas de bureau Lubuntu (plus leger)
+#
+# Il n'existe pas de box "Lubuntu" officielle : on part de ubuntu/jammy64 (Ubuntu 22.04)
+# et on installe lubuntu-desktop au provisionnement (voir provision/common.sh).
+
+BOX        = "ubuntu/jammy64"
+INTNET     = "secure-lab"
+GUI        = ENV.fetch("LUBUNTU_GUI", "1") == "1"
+
+VMS = {
+  "client" => { ip: "10.0.0.10", ram: 2048, cpus: 2, gui: GUI,   script: "provision/client.sh" },
+  "server" => { ip: "10.0.0.20", ram: 2048, cpus: 2, gui: false, script: "provision/server.sh" },
+}
+VMS["ids"] = { ip: "10.0.0.30", ram: 2048, cpus: 2, gui: false, script: "provision/ids.sh" } if ENV["IDS_VM"] == "1"
+
+Vagrant.configure("2") do |config|
+  config.vm.box = BOX
+  config.vm.box_check_update = false
+  # Depot du projet visible dans les VMs
+  # (le Vagrantfile est dans vagrant/ : le depot est le dossier parent)
+  config.vm.synced_folder "..", "/home/vagrant/project"
+
+  VMS.each do |name, cfg|
+    config.vm.define name do |m|
+      m.vm.hostname = name
+      m.vm.network "private_network", ip: cfg[:ip], virtualbox__intnet: INTNET
+      m.vm.provider "virtualbox" do |vb|
+        vb.name   = "secure-lab-#{name}"
+        vb.memory = cfg[:ram]
+        vb.cpus   = cfg[:cpus]
+        vb.gui    = cfg[:gui]
+        vb.customize ["modifyvm", :id, "--vram", "32"] if cfg[:gui]
+      end
+      m.vm.provision "shell", path: "provision/common.sh",
+                     env: { "WITH_GUI" => cfg[:gui] ? "1" : "0" }
+      m.vm.provision "shell", path: cfg[:script]
+    end
+  end
+end
