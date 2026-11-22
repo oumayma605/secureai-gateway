@@ -20,8 +20,8 @@ ax.tick_params(axis="x", rotation=60, labelsize=7)
 plt.tight_layout(); fig.savefig(RESULTS / "c2_temps_hash.png", dpi=150)
 
 c = RESULTS / "c2_craquage.csv"
-if c.exists():
-    d = pd.read_csv(c)
+d = pd.read_csv(c) if c.exists() else pd.DataFrame()
+if len(d):
     fig, axes = plt.subplots(1, 2, figsize=(10, 4.5))
     s = d.groupby("algo")["secondes"].agg(["mean", "std"]).fillna(0)
     axes[0].bar(s.index, s["mean"], yerr=s["std"], capsize=3)

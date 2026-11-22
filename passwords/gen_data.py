@@ -11,6 +11,7 @@ faisable sur CPU dans une VM : ils sont reportes dans le rapport.
 Usage : python3 passwords/gen_data.py [--mots 1000] [--hashes 10]
 """
 import argparse
+import base64
 import hashlib
 import os
 import random
@@ -79,7 +80,9 @@ def main():
         sha.append(f"{u}:{hashlib.sha256(b).hexdigest()}")
         salt = bytes(rng.getrandbits(8) for _ in range(16))
         dk = hashlib.pbkdf2_hmac("sha256", b, salt, PBKDF2_ITER)
-        pb.append(f"{u}:$pbkdf2-hmac-sha256${PBKDF2_ITER}${salt.hex()}${dk.hex()}")
+        # format passlib lu par John : base64 "adapte" (+ -> ., sans =)
+        ab64 = lambda x: base64.b64encode(x).decode().rstrip("=").replace("+", ".")
+        pb.append(f"{u}:$pbkdf2-sha256${PBKDF2_ITER}${ab64(salt)}${ab64(dk)}")
         bc.append(f"{u}:{bcrypt.hashpw(b, bcrypt.gensalt(rounds=BCRYPT_COST)).decode()}")
         ar.append(f"{u}:{ph.hash(p)}")
     ecrire("sha256.txt", sha)

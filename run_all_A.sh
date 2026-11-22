@@ -10,6 +10,8 @@ echo "== C2 : temps de hachage =="
 python3 passwords/bench_c2.py
 echo "== C2 : donnees + craquage John the Ripper =="
 python3 passwords/gen_data.py
+# John jumbo (snap) si present, sinon celui du PATH (le paquet apt 1.8.0 manque de formats)
+[ -x /snap/bin/john ] && export JOHN="${JOHN:-/snap/bin/john}"
 bash passwords/crack_c2.sh
 echo "== Graphiques =="
 python3 algorithms/plot_c1.py

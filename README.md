@@ -15,7 +15,7 @@ Vagrant (Lubuntu) : `cd vagrant && vagrant up client` (partie A) ou `vagrant up`
 ## Partie A (C1 algorithmes, C2 mots de passe)
 Dans la VM client, depuis la racine du dépôt :
 ```bash
-sudo apt install -y john python3-pip openssl
+sudo apt install -y python3-pip openssl && sudo snap install john-the-ripper   # John "jumbo" requis
 bash run_all_A.sh        # C1 + C2 + graphiques -> results/
 ```
 Détails : `docs/suivi_partieA.md`.

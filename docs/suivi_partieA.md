@@ -21,7 +21,7 @@ Sinon, utiliser la VM client de B.
 ```bash
 git clone https://github.com/oumayma605/secureai-gateway.git && cd secureai-gateway
 git checkout partie-A
-sudo apt install -y john python3-pip openssl
+sudo apt install -y python3-pip openssl && sudo snap install john-the-ripper   # John "jumbo" requis
 bash run_all_A.sh
 ```
 Puis : captures d'écran dans `docs/captures/` (une par mesure), remplacer les `[MESURE]`
