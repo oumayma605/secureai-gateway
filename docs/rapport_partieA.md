@@ -1,7 +1,7 @@
 # Rapport - Partie A : cryptographie (C1) et mots de passe (C2)
 
-> Brouillon de l'étudiant A. Les passages `[MESURE]` sont à remplacer par les valeurs
-> réelles de `results/` après exécution dans les VMs. Aucun chiffre n'est inventé ici.
+> Partie de l'étudiant A. Chiffres issus de `results/` (moyennes de 5 répétitions, VM
+> Lubuntu 22.04, 2 vCPU). Restent à ajouter : les captures d'écran dans `docs/captures/`.
 
 ## 1. Introduction et problématique
 
@@ -34,19 +34,36 @@ taille réelle des clés et des signatures.
 
 ### 3.2 Résultats
 - Débit symétrique et hachage : `results/c1_symetrique.csv`, `results/c1_symetrique.png`.
-  AES-128-GCM : `[MESURE]` Mo/s ; AES-256-GCM : `[MESURE]` ; AES-128-CBC : `[MESURE]` ;
-  SHA-256 : `[MESURE]` ; SHA3-256 : `[MESURE]`.
-- Asymétrique : `results/c1_asymetrique.csv`, `results/c1_asymetrique.png`.
-- Tailles : `results/c1_tailles.csv`. Valeurs théoriques attendues, à confirmer par la
-  mesure : signature RSA-2048 = 256 octets, RSA-4096 = 512, Ed25519 = 64, ECDSA P-256 ≈ 70-72
-  (encodage DER).
+  Moyennes sur 5 répétitions (VM client, 2 vCPU) :
 
-### 3.3 Analyse (à confirmer avec les chiffres)
+  | Algorithme | Débit (Mo/s) |
+  |---|---|
+  | AES-128-GCM | 5432 |
+  | AES-256-GCM | 3484 |
+  | AES-128-CBC | 1652 |
+  | AES-256-CBC | 1117 |
+  | SHA-256 | 349 |
+  | SHA3-256 | 265 |
+- Asymétrique : `results/c1_asymetrique.csv`, `results/c1_asymetrique.png` (opérations par seconde) :
+
+  | Algorithme | Signatures/s | Vérifications/s |
+  |---|---|---|
+  | RSA-2048 | 1423 | 49 019 |
+  | RSA-4096 | 293 | 19 830 |
+  | ECDSA P-256 | 48 967 | 18 262 |
+  | Ed25519 | 26 815 | 9 994 |
+- Tailles (`results/c1_tailles.csv`, mesurées) : signature RSA-2048 = 256 octets,
+  RSA-4096 = 512, Ed25519 = 64, ECDSA P-256 = 71 (encodage DER) ; clé publique RSA-2048 =
+  294 octets, RSA-4096 = 550, ECDSA = 91, Ed25519 = 44.
+
+### 3.3 Analyse
 - **AES-GCM vs AES-CBC** : GCM fournit confidentialité *et* intégrité (chiffrement
   authentifié) et se parallélise ; CBC ne fournit que la confidentialité, exige un MAC
-  séparé et est exposé aux attaques de type *padding oracle* si mal utilisé. Sur un CPU
-  avec AES-NI, GCM est en général au moins aussi rapide que CBC. `[MESURE]` à vérifier.
-- **AES-128 vs AES-256** : 256 bits coûte un peu plus de calcul (14 tours au lieu de 10) ;
+  séparé et est exposé aux attaques de type *padding oracle* si mal utilisé. Mesuré : GCM
+  est environ 3,3 fois plus rapide que CBC (5432 contre 1652 Mo/s en AES-128), car le
+  chiffrement CBC est séquentiel alors que GCM se parallélise.
+- **AES-128 vs AES-256** : 256 bits coûte plus de calcul (14 tours au lieu de 10) : mesuré,
+  AES-256-GCM est environ 36 % plus lent qu'AES-128-GCM (3484 contre 5432 Mo/s) ;
   128 bits reste jugé sûr aujourd'hui.
 - **RSA vs ECDSA vs Ed25519** : à niveau de sécurité comparable (RSA-3072 ≈ P-256 ≈
   Ed25519), les courbes elliptiques ont des clés et signatures bien plus petites et la
@@ -72,10 +89,27 @@ taille réelle des clés et des signatures.
 - Temps de hachage : `results/c2_temps_hash.csv`, `results/c2_temps_hash.png`.
 - Craquage : `results/c2_craquage.csv`, `results/c2_craquage.png`
   (temps total, mots de passe trouvés, temps par tentative).
-- SHA-256 simple : `[MESURE]` ms/tentative ; PBKDF2 : `[MESURE]` ; bcrypt : `[MESURE]` ;
-  Argon2id : `[MESURE]`.
+- Temps de calcul d'un hash (moyenne sur 5 répétitions) : SHA-256 simple 0,007 ms ;
+  PBKDF2 : 5,2 ms (10 000 it.), 49 ms (100 000), 291 ms (600 000) ; bcrypt : 13 ms (coût 8),
+  51 ms (10), 203 ms (12), 827 ms (14) ; Argon2id : 7 ms (t=1, 8 Mio), 29 ms (t=2, 19 Mio),
+  185 ms (t=3, 64 Mio).
+- Craquage John the Ripper (1000 candidats, 10 comptes, 5 répétitions ; les 6 mots de passe
+  présents dans la liste sont retrouvés pour chaque algorithme) :
 
-### 4.3 Analyse (à confirmer avec les chiffres)
+  | Algorithme (coût du test) | Temps moyen | ms par tentative |
+  |---|---|---|
+  | SHA-256 simple | 0,41 s | 0,04 |
+  | PBKDF2 (10 000 it.) | 4,7 s | 0,47 |
+  | Argon2id (t=1, 8 Mio) | 10,2 s | 1,02 |
+  | bcrypt (coût 8) | 17,0 s | 1,69 |
+
+  Une « tentative » est un mot de la liste essayé contre un compte. Avec ces coûts modestes,
+  SHA-256 simple se casse environ 40 fois plus vite que bcrypt ; avec les coûts recommandés
+  (PBKDF2 600 000 it., bcrypt 12, Argon2id 19 Mio), l'écart serait bien plus grand.
+  Limite : un test sur 1000 mots et 10 comptes est petit, les écarts sont à lire en ordre
+  de grandeur.
+
+### 4.3 Analyse
 - Un hash rapide non salé (SHA-256 simple) est inadapté aux mots de passe : l'attaquant
   teste des millions de candidats par seconde, et deux utilisateurs au même mot de passe
   ont le même hash.
