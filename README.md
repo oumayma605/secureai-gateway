@@ -4,7 +4,7 @@ Mini-projet sécurité : évaluation comparative de solutions de sécurité (alg
 hachage de mots de passe, protocoles, IDS/firewall).
 
 ## Livrables
-- Rapport : `docs/rapport_final.pdf` (source LaTeX : `docs/latex/rapport_final.tex` ; partie A détaillée dans `docs/rapport_partieA.md`)
+- Rapport : `docs/rapport_final.pdf` (source LaTeX : `docs/latex/rapport_final.tex`)
 - Résultats : `results/` ; captures : `docs/captures/`
 
 ## Labo (VMs)
@@ -17,7 +17,7 @@ Dans la VM client, depuis la racine du dépôt :
 sudo apt install -y python3-pip openssl && sudo snap install john-the-ripper   # John "jumbo" requis
 bash run_all_A.sh        # C1 + C2 + graphiques -> results/
 ```
-Détails : `docs/suivi_partieA.md`.
+Les résultats sont écrits dans `results/` ; l'analyse est dans le rapport.
 
 ## Partie B (C3 protocoles, C4 IDS/firewall)
 Voir `config/`, `protocols/`, `ids/`.
