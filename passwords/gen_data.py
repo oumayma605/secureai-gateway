@@ -24,7 +24,7 @@ from argon2.low_level import Type
 ROOT = Path(__file__).resolve().parent
 DATA, HASHES = ROOT / "data", ROOT / "hashes"
 
-# Parametres de cout utilises pour le craquage (voir docs/rapport_partieA.md)
+# Parametres de cout utilises pour le craquage (voir docs/rapport_final.pdf)
 PBKDF2_ITER = int(os.environ.get("PBKDF2_ITER", 10_000))
 BCRYPT_COST = int(os.environ.get("BCRYPT_COST", 8))
 ARGON2_T, ARGON2_M_KIB, ARGON2_P = 1, 8192, 1
