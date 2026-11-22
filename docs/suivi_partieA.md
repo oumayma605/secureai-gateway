@@ -11,7 +11,6 @@
 | J7 | Synthèse avec B | `docs/grille_synthese_A.md` | Brouillon fait |
 | J8 | Relecture, relance d'un coup | `run_all_A.sh` | Script fait |
 | - | Rapport final (A + B) | `docs/rapport_final.md` | Squelette fait, chiffres et parties B à compléter |
-| - | Vidéo | `docs/video_scenario.md` | Scénario fait, **enregistrement à faire** |
 
 ## VM client
 Pas de VM ? `cd vagrant && vagrant up client && vagrant ssh client` (Lubuntu, 10.0.0.10).

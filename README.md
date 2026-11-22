@@ -5,7 +5,6 @@ hachage de mots de passe, protocoles, IDS/firewall).
 
 ## Livrables
 - Rapport : `docs/rapport_final.md` (partie A détaillée dans `docs/rapport_partieA.md`)
-- Vidéo : scénario et checklist dans `docs/video_scenario.md`
 - Résultats : `results/` ; captures : `docs/captures/`
 
 ## Labo (VMs)
