@@ -10,7 +10,7 @@
 | J6 | Graphiques, sections du rapport | `plot_c1.py`, `plot_c2.py`, `docs/rapport_partieA.md` | Brouillon fait, chiffres à insérer |
 | J7 | Synthèse avec B | `docs/grille_synthese_A.md` | Brouillon fait |
 | J8 | Relecture, relance d'un coup | `run_all_A.sh` | Script fait |
-| - | Rapport final (A + B) | `docs/rapport_final.md` | Squelette fait, chiffres et parties B à compléter |
+| - | Rapport final (A + B) | `docs/rapport_final.pdf` | Fait |
 
 ## VM client
 Pas de VM ? `cd vagrant && vagrant up client && vagrant ssh client` (Lubuntu, 10.0.0.10).

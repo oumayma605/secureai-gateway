@@ -4,7 +4,7 @@ Mini-projet sécurité : évaluation comparative de solutions de sécurité (alg
 hachage de mots de passe, protocoles, IDS/firewall).
 
 ## Livrables
-- Rapport : `docs/rapport_final.md` (partie A détaillée dans `docs/rapport_partieA.md`)
+- Rapport : `docs/rapport_final.pdf` (source LaTeX : `docs/latex/rapport_final.tex` ; partie A détaillée dans `docs/rapport_partieA.md`)
 - Résultats : `results/` ; captures : `docs/captures/`
 
 ## Labo (VMs)
