@@ -1,0 +1,56 @@
+algo,parametres,run,ms_par_hash
+sha256,sans sel,1,0.0291
+sha256,sans sel,2,0.0019
+sha256,sans sel,3,0.0014
+sha256,sans sel,4,0.0014
+sha256,sans sel,5,0.0014
+pbkdf2-sha256,10000 iterations,1,6.9483
+pbkdf2-sha256,10000 iterations,2,5.1056
+pbkdf2-sha256,10000 iterations,3,4.7876
+pbkdf2-sha256,10000 iterations,4,4.5271
+pbkdf2-sha256,10000 iterations,5,4.7611
+pbkdf2-sha256,100000 iterations,1,48.2212
+pbkdf2-sha256,100000 iterations,2,49.8573
+pbkdf2-sha256,100000 iterations,3,47.5454
+pbkdf2-sha256,100000 iterations,4,49.145
+pbkdf2-sha256,100000 iterations,5,49.9361
+pbkdf2-sha256,600000 iterations,1,295.3222
+pbkdf2-sha256,600000 iterations,2,287.4844
+pbkdf2-sha256,600000 iterations,3,297.0481
+pbkdf2-sha256,600000 iterations,4,283.8832
+pbkdf2-sha256,600000 iterations,5,293.5194
+bcrypt,cout 8,1,13.4731
+bcrypt,cout 8,2,13.6467
+bcrypt,cout 8,3,12.8828
+bcrypt,cout 8,4,12.8483
+bcrypt,cout 8,5,12.7652
+bcrypt,cout 10,1,51.1025
+bcrypt,cout 10,2,51.8162
+bcrypt,cout 10,3,50.6197
+bcrypt,cout 10,4,49.7572
+bcrypt,cout 10,5,50.7704
+bcrypt,cout 12,1,200.0885
+bcrypt,cout 12,2,202.7345
+bcrypt,cout 12,3,204.7077
+bcrypt,cout 12,4,200.6527
+bcrypt,cout 12,5,207.7215
+bcrypt,cout 14,1,819.9822
+bcrypt,cout 14,2,811.6555
+bcrypt,cout 14,3,816.9412
+bcrypt,cout 14,4,841.0096
+bcrypt,cout 14,5,843.818
+argon2id,t=1 m=8Mio p=1,1,10.0297
+argon2id,t=1 m=8Mio p=1,2,9.0328
+argon2id,t=1 m=8Mio p=1,3,5.9043
+argon2id,t=1 m=8Mio p=1,4,6.2006
+argon2id,t=1 m=8Mio p=1,5,5.4074
+argon2id,t=2 m=19Mio p=1,1,38.765
+argon2id,t=2 m=19Mio p=1,2,31.1611
+argon2id,t=2 m=19Mio p=1,3,26.3376
+argon2id,t=2 m=19Mio p=1,4,25.2573
+argon2id,t=2 m=19Mio p=1,5,25.8404
+argon2id,t=3 m=64Mio p=1,1,181.0504
+argon2id,t=3 m=64Mio p=1,2,182.7154
+argon2id,t=3 m=64Mio p=1,3,191.0043
+argon2id,t=3 m=64Mio p=1,4,184.3319
+argon2id,t=3 m=64Mio p=1,5,185.649

@@ -24,6 +24,7 @@ VMS["ids"] = { ip: "10.0.0.30", ram: 2048, cpus: 2, gui: false, script: "provisi
 Vagrant.configure("2") do |config|
   config.vm.box = BOX
   config.vm.box_check_update = false
+  config.vm.boot_timeout = 900   # demarrage lent possible (virtualisation imbriquee)
   # Depot du projet visible dans les VMs
   # (le Vagrantfile est dans vagrant/ : le depot est le dossier parent)
   config.vm.synced_folder "..", "/home/vagrant/project"
@@ -38,6 +39,8 @@ Vagrant.configure("2") do |config|
         vb.cpus   = cfg[:cpus]
         vb.gui    = cfg[:gui]
         vb.customize ["modifyvm", :id, "--vram", "32"] if cfg[:gui]
+        # Windows avec Hyper-V actif : evite les gels au demarrage
+        vb.customize ["modifyvm", :id, "--paravirtprovider", "none"]
       end
       m.vm.provision "shell", path: "provision/common.sh",
                      env: { "WITH_GUI" => cfg[:gui] ? "1" : "0" }

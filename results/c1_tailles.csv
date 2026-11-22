@@ -1,0 +1,5 @@
+algo,cle_privee_octets,cle_publique_octets,signature_octets
+rsa2048,1191,294,256
+rsa4096,2347,550,512
+ecdsap256,121,91,71
+ed25519,48,44,64
